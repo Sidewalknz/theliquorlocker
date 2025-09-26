@@ -1,0 +1,32 @@
+/* Zero-height spacer; SVG is absolutely positioned so layout stays smooth */
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;               /* does not affect document flow */
+  line-height: 0;
+  pointer-events: none;    /* purely decorative */
+  z-index: 1;
+  --wave-h: 100px;         /* default if not provided inline */
+}
+
+/* Shared SVG box */
+.svg {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--wave-h);
+  display: block;
+}
+
+/* When NOT flipped (points UP): overlap the section BELOW */
+.normal .svg {
+  bottom: calc(-1 * var(--wave-h));
+}
+
+/* When flipped (points DOWN): overlap the section ABOVE */
+.flip .svg {
+  top: calc(-1 * var(--wave-h));
+}
+
+/* The SVG fills with currentColor, set from the wrapper's inline style.
+   Example: style={{ color: 'var(--background)' }} */

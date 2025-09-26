@@ -1,0 +1,65 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 1000;
+
+  /* Transparent at the very top */
+  background: transparent;
+  transition: background 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
+
+  /* Optional: helps readability over busy hero images without adding color */
+  backdrop-filter: none;
+  will-change: background, backdrop-filter;
+
+  --header-height: 64px;
+}
+
+.header.scrolled {
+  /* Solid background once you scroll */
+  background: var(--background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  backdrop-filter: none; /* switch to blur if you like */
+}
+
+.navbar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: var(--header-height);
+}
+
+.logo img {
+  display: block;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks a {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--foreground);
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.navLinks a:hover {
+  color: var(--brand-orange);
+}
+
+/* remove spacer completely; hero should sit under a transparent header */
+.spacer {
+  display: none;
+}
