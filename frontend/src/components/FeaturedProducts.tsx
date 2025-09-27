@@ -1,68 +1,113 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import styles from './FeaturedProducts.module.css';
 import Particles from './Particles';
 
-type Product = {
-  src: string;
-  x: number;
-  y: number;
-  depth: number;
+type ProductPick = { src: string; rotDeg: number; name: string };
+type Product = { name: string; image: string };
+type Brand = {
+  name: string;
+  description: string;
+  logo: string;
+  products: Product[];
 };
 
 export default function FeaturedProducts() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const productElsRef = useRef<HTMLDivElement[]>([]);
+  const [brand, setBrand] = useState<Brand | null>(null);
+  const [products, setProducts] = useState<ProductPick[]>([]);
+  const fetchedOnce = useRef(false);
 
-  // Fake fetch: replace with your API or static list
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  // Fetch brands, pick 1 random brand, then pick 3 random products
   useEffect(() => {
-    const items = [
-      '/products/item1.png',
-      '/products/item2.png',
-      '/products/item3.png',
-      '/products/item4.png',
-      '/products/item5.png',
-    ];
-    const prods: Product[] = items.map((src, i) => ({
-      src,
-      x: (Math.random() - 0.5) * 400,
-      y: (Math.random() - 0.5) * 300,
-      depth: Math.random() * 0.6 + 0.4,
-    }));
-    setProducts(prods);
+    if (fetchedOnce.current) return;
+    fetchedOnce.current = true;
+
+    (async () => {
+      try {
+        const res = await fetch('/api/brands', { cache: 'no-store' });
+        const data = (await res.json()) as { brands: Brand[] };
+        const brands = data?.brands ?? [];
+        if (!brands.length) return;
+
+        const chosenBrand = brands[Math.floor(Math.random() * brands.length)];
+        const picks = [...chosenBrand.products]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+
+        setBrand(chosenBrand);
+        setProducts(
+          picks.map((p) => ({
+            src: p.image,
+            name: p.name,
+            rotDeg: Math.round(Math.random() * 40 - 20), // -20°..20°
+          }))
+        );
+      } catch {
+        // noop
+      }
+    })();
   }, []);
 
-  // Floating animation
+  // Trigger animations once scrolled into view
   useEffect(() => {
-    let rafId = 0;
-    const loop = () => {
-      productElsRef.current.forEach((el, i) => {
-        const prod = products[i];
-        if (!el || !prod) return;
-        const floatY = Math.sin(Date.now() / 1000 + i) * 10 * prod.depth;
-        el.style.transform = `translate3d(calc(50vw + ${prod.x}px), calc(50vh + ${prod.y + floatY}px), 0)`;
-      });
-      rafId = requestAnimationFrame(loop);
-    };
-    rafId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafId);
-  }, [products]);
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisible(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className={styles.featured}>
+    <section className={styles.featured} ref={sectionRef}>
       <Particles />
       <div className={styles.content}>
-        <h2 className={styles.title}>Some of our finest beverages</h2>
-        <div className={styles.items}>
+        <h2 className={`${styles.title} ${visible ? styles.visible : ''}`}>
+          {brand
+            ? `Some of our finest from ${brand.name}`
+            : 'Some of our finest beverages'}
+        </h2>
+
+        <div className={styles.row}>
           {products.map((p, i) => (
-            <div
+            <a
               key={p.src + i}
-              className={styles.item}
-              ref={(el) => { if (el) productElsRef.current[i] = el; }}
+              href="/range"
+              className={`${styles.card} ${visible ? styles.visible : ''}`}
+              style={
+                {
+                  '--rot': `${p.rotDeg}deg`,
+                  '--i': i.toString(),
+                  '--phase': `${i * 0.6}s`,
+                } as React.CSSProperties
+              }
             >
-              <img src={p.src} alt="" className={styles.productImg} />
-            </div>
+              <Image
+                src={p.src}
+                alt={p.name}
+                className={styles.productImg}
+                width={220}
+                height={320}
+                draggable={false}
+                priority={i === 0}
+              />
+            </a>
           ))}
         </div>
       </div>

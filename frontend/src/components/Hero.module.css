@@ -64,8 +64,8 @@
 }
 
 .layerImg.small { max-width: 100px; }
-.layerImg.medium { max-width: 220px; }
-.layerImg.large { max-width: 480px; }
+.layerImg.medium { max-width: 140px; }
+.layerImg.large { max-width: 220px; }
 
 .content {
   position: relative;

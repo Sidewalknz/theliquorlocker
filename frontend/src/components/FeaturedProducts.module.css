@@ -1,7 +1,7 @@
 .featured {
   position: relative;
   width: 100%;
-  height: 60vh;
+  min-height: 60vh;
   overflow: hidden;
 
   background: linear-gradient(
@@ -20,35 +20,97 @@
 .content {
   position: relative;
   z-index: 2;
-  padding: 0 16px;
+  padding: 256px 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* --- Title animation --- */
 .title {
   font-size: 44px;
   font-weight: 800;
-  margin-bottom: 40px;
+  line-height: 1.1;
+  margin: 0 0 28px;
   color: var(--foreground);
+
+  opacity: 0;
+  transform: translateY(30px);
 }
 
-.items {
-  position: relative;
+.title.visible {
+  animation: fadeUp 1s ease-out forwards;
 }
 
-.item {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: filter 0.3s ease, transform 0.3s ease;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Products row --- */
+.row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 70px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+/* --- Image pop-in animation --- */
+.card {
+  --rot: 0deg;
+  --phase: 0s;
+
+  transform: rotate(var(--rot)) scale(0.8);
+  opacity: 0;
+}
+
+.card.visible {
+  animation: popIn 1s ease-out forwards, bob 5s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.5s), var(--phase); /* slower stagger */
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: rotate(var(--rot)) scale(0.8) translateY(30px); }
+  60%  { opacity: 1; transform: rotate(var(--rot)) scale(1.05) translateY(0); }
+  100% { opacity: 1; transform: rotate(var(--rot)) scale(1); }
 }
 
 .productImg {
-  max-width: 280px;
+  width: 220px;
   height: auto;
-  filter: blur(6px) brightness(0.8);
-  transition: filter 0.3s ease, transform 0.3s ease;
+  max-width: 18vw;
+  filter: blur(6px) brightness(0.92);
+  transition: filter 0.25s ease, transform 0.25s ease;
+  will-change: transform, filter;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-.productImg:hover {
-  filter: blur(0px) brightness(1);
-  transform: scale(1.05);
+.card:hover .productImg {
+  filter: blur(0) brightness(1);
+  transform: scale(1.03);
+}
+
+/* gentle bobbing */
+@keyframes bob {
+  0%, 100% { transform: rotate(var(--rot)) translateY(0); }
+  50%      { transform: rotate(var(--rot)) translateY(-8px); }
+}
+
+/* medium screens */
+@media (max-width: 900px) {
+  .title { font-size: 38px; margin-bottom: 24px; }
+  .content { padding: 72px 16px 48px; }
+  .productImg { max-width: 34vw; width: 180px; }
+  .row { gap: 20px; }
+}
+
+/* small screens */
+@media (max-width: 600px) {
+  .title { font-size: 32px; margin-bottom: 20px; }
+  .content { padding: 64px 16px 40px; }
+  .productImg { max-width: 60vw; width: 150px; }
+  .row { gap: 16px; }
 }
