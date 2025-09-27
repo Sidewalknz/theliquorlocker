@@ -3,6 +3,8 @@ import Discover from '@/components/Discover';
 import WaveDivider from '@/components/WaveDivider';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import About from '@/components/About';
+import WorkTogether from '@/components/WorkTogether';
+import Footer from '@/components/Footer';
 
 export default function HomePage() {
   return (
@@ -15,6 +17,9 @@ export default function HomePage() {
       <WaveDivider flip height={100} />
       <Discover />
       <WaveDivider height={100} />
+      <WorkTogether />
+      <WaveDivider flip height={100} color="var(--foreground)" />
+      <Footer />
     </>
   );
 }

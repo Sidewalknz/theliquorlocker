@@ -28,7 +28,6 @@ export default function Navbar() {
 
           {/* Links on the right */}
           <ul className={styles.navLinks}>
-            <li><Link href="/about">About</Link></li>
             <li><Link href="/range">Range</Link></li>
             <li><Link href="/contact">Contact</Link></li>
             <li><Link href="/register">Register</Link></li>

@@ -1,7 +1,7 @@
 .featured {
   position: relative;
   width: 100%;
-  min-height: 60vh;
+  min-height: 100vh;
   overflow: hidden;
 
   background: linear-gradient(
@@ -61,7 +61,6 @@
 .card {
   --rot: 0deg;
   --phase: 0s;
-
   transform: rotate(var(--rot)) scale(0.8);
   opacity: 0;
 }
@@ -78,8 +77,8 @@
 }
 
 .productImg {
-  width: 220px;
-  height: auto;
+  width: auto;
+  height: 350px;
   max-width: 18vw;
   filter: blur(6px) brightness(0.92);
   transition: filter 0.25s ease, transform 0.25s ease;
