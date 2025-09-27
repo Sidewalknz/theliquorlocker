@@ -8,12 +8,12 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         {/* Left: Logo + Social */}
-        <div className={styles.column}>
+        <div className={`${styles.column} ${styles.centered}`}>
           <Image
             src="/logo.svg"
             alt="The Liquor Locker logo"
-            width={160}
-            height={50}
+            width={150}
+            height={150}
             className={styles.logo}
           />
           <div className={styles.socials}>

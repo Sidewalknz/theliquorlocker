@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import { Raleway } from "next/font/google";
+import Footer from '@/components/Footer';
+import WaveDivider from '@/components/WaveDivider';
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -24,7 +26,10 @@ export default function RootLayout({
       <body className={raleway.className}>
         <Navbar />
         {children}
+        
       </body>
+      <WaveDivider flip height={100} color="var(--foreground)" />
+      <Footer />
     </html>
   );
 }

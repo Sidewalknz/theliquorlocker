@@ -77,7 +77,7 @@
 }
 
 .content h1 {
-  margin: 0 auto 32px;
+  margin: 0 auto 28px;
   max-width: 800px;
   font-weight: 800;
   line-height: 1.2;
@@ -99,6 +99,15 @@
   white-space: nowrap;
 }
 
+/* CTA group */
+.ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
 .cta {
   display: inline-block;
   padding: 12px 24px;
@@ -117,4 +126,111 @@
   background: #b9613e;
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(0,0,0,.12);
+}
+
+/* Secondary CTA (register) */
+.secondaryCta {
+  background: transparent;
+  color: var(--brand-orange);
+  border: 2px solid var(--brand-orange);
+}
+
+.secondaryCta:hover,
+.secondaryCta:focus-visible {
+  background: var(--brand-orange);
+  color: #ffffff;
+}
+
+/* Mobile tweaks for the Hero section */
+@media (max-width: 768px) {
+  .hero {
+    height: 85vh;
+    min-height: 560px;
+    padding: 0 16px;
+  }
+
+  /* Tone down image sizes so they don’t crowd the copy */
+  .layerImg.small { max-width: 80px; }
+  .layerImg.medium { max-width: 110px; }
+  .layerImg.large { max-width: 160px; }
+
+  /* Slightly faster pop so users see content sooner on mobile */
+  .layerImg {
+    animation-duration: 0.7s;
+    animation-delay: calc(var(--i, 0) * 0.12s);
+  }
+
+  .content {
+    padding: 0 8px;
+  }
+
+  .content h1 {
+    max-width: 90%;
+    margin-bottom: 22px;
+    line-height: 1.15;
+  }
+
+  .firstLine {
+    font-size: 42px;
+    letter-spacing: 0.01em;
+  }
+
+  .secondLine {
+    font-size: 22px;
+    margin-top: 6px;
+    white-space: normal; /* allow wrap on smaller screens */
+  }
+
+  .ctas {
+    gap: 12px;
+  }
+
+  .cta {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  .secondaryCta {
+    border-width: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 80vh;
+    min-height: 520px;
+    padding: 0 12px;
+  }
+
+  .layerImg.small { max-width: 70px; }
+  .layerImg.medium { max-width: 95px; }
+  .layerImg.large { max-width: 140px; }
+
+  /* Nudge layers a bit less on tiny screens to reduce motion */
+  .layer {
+    transition: filter 180ms ease;
+  }
+
+  .content h1 {
+    max-width: 95%;
+    margin-bottom: 18px;
+  }
+
+  .firstLine {
+    font-size: 34px;
+  }
+
+  .secondLine {
+    font-size: 20px;
+    margin-top: 6px;
+  }
+
+  .ctas {
+    gap: 10px;
+  }
+
+  .cta {
+    padding: 11px 18px;
+    font-size: 14px;
+  }
 }

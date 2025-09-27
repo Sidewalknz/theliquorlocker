@@ -214,9 +214,14 @@ export default function Hero() {
           <span className={styles.firstLine}>BRANDS WITH A STORY</span>
           <span className={styles.secondLine}>and we are here to tell it.</span>
         </h1>
-        <a href="/range" className={styles.cta}>
-          Explore Our Range
-        </a>
+        <div className={styles.ctas}>
+          <a href="/range" className={styles.cta}>
+            Explore Our Range
+          </a>
+          <a href="/register" className={`${styles.cta} ${styles.secondaryCta}`}>
+            Want To Work Together?
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -1,49 +1,44 @@
+/* ================================
+   Fixed header; transparent on top
+   ================================ */
 .header {
+  --header-height: 64px; /* base height */
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0 0 auto 0;
   height: var(--header-height);
   z-index: 1000;
 
-  /* Transparent at the very top */
   background: transparent;
   transition: background 0.25s ease, box-shadow 0.25s ease, backdrop-filter 0.25s ease;
-
-  /* Optional: helps readability over busy hero images without adding color */
   backdrop-filter: none;
   will-change: background, backdrop-filter;
-
-  --header-height: 64px;
 }
 
 .header.scrolled {
-  /* Solid background once you scroll */
   background: var(--background);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  backdrop-filter: none; /* switch to blur if you like */
+  backdrop-filter: none;
 }
 
 .navbar {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   height: var(--header-height);
 }
 
-.logo img {
-  display: block;
-}
+.logo img { display: block; }
 
+/* ================================
+   Desktop links
+   ================================ */
 .navLinks {
   list-style: none;
   display: flex;
-  gap: 2rem;
+  gap: 1.25rem;
   margin: 0;
   padding: 0;
 }
@@ -55,11 +50,162 @@
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.navLinks a:hover {
-  color: var(--brand-orange);
+.navLinks a:hover,
+.navLinks a:focus-visible { color: var(--brand-orange); }
+
+/* Primary CTA (desktop) */
+.cta {
+  margin-left: 0.25rem;
+  padding: 10px 16px;
+  line-height: 1;
+  background: var(--brand-orange);
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(0,0,0,.10);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cta:hover,
+.cta:focus-visible {
+  background: #b9613e;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,.14);
 }
 
-/* remove spacer completely; hero should sit under a transparent header */
-.spacer {
+/* ================================
+   Burger button (hidden on desktop)
+   ================================ */
+.burger {
   display: none;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin-left: 8px;
+  position: relative;
+  cursor: pointer;
+}
+.burger span {
+  position: absolute;
+  left: 10px; right: 10px;
+  height: 2px; background: var(--foreground);
+  border-radius: 1px;
+  transition: transform 0.25s ease, opacity 0.2s ease, top 0.25s ease, bottom 0.25s ease;
+}
+.burger span:nth-child(1){ top:14px; }
+.burger span:nth-child(2){ top:21px; }
+.burger span:nth-child(3){ bottom:14px; }
+.burger.open span:nth-child(1){ top:21px; transform: rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ bottom:auto; top:21px; transform: rotate(-45deg); }
+
+/* ================================
+   Mobile menu panel – drops BELOW header
+   ================================ */
+.mobileMenu {
+  --header-height: 64px;
+  position: fixed;
+  left: 0; right: 0;
+  top: var(--header-height);
+  z-index: 999;
+  background: var(--background);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  border-top: 1px solid rgba(0,0,0,0.06);
+
+  transform: translateY(-20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+}
+.menuOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileList {
+  list-style: none;
+  padding: 12px 1.5rem 1.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobileList a {
+  display: block;
+  padding: 14px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--foreground);
+  background: transparent;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.mobileList a:hover,
+.mobileList a:focus-visible {
+  background: rgba(0,0,0,0.04);
+  color: var(--brand-orange);
+  transform: translateY(-1px);
+}
+
+/* Primary CTA (mobile) — full-width button */
+.ctaMobile {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  text-align: center;
+  background: var(--brand-orange) !important;
+  color: #ffffff !important;  
+  font-weight: 800;
+  box-shadow: 0 10px 22px rgba(0,0,0,.12);
+  text-decoration: none;      
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ctaMobile:hover,
+.ctaMobile:focus-visible {
+  background: #b9613e !important;
+  transform: translateY(-1px);
+}
+
+/* ================================
+   Scrim behind the panel
+   ================================ */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 998;
+}
+.scrimVisible { opacity: 1; pointer-events: auto; }
+
+/* ================================
+   Responsive
+   ================================ */
+@media (max-width: 900px) {
+  .navLinks { display: none; }
+  .burger { display: inline-block; }
+  .navbar { padding: 0 1rem; }
+}
+
+/* Optional: taller mobile header if logo is big */
+@media (max-width: 480px) {
+  .header { --header-height: 72px; }
+  .mobileMenu { --header-height: 72px; }
+}
+
+/* ================================
+   Reduced motion
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+  .burger span, .mobileMenu, .scrim { transition: none; }
 }
