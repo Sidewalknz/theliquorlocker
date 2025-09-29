@@ -17,12 +17,13 @@ type Brand = {
 export default function FeaturedProducts() {
   const [brand, setBrand] = useState<Brand | null>(null);
   const [products, setProducts] = useState<ProductPick[]>([]);
+  const [revealed, setRevealed] = useState<number | null>(null); // track which card is revealed
   const fetchedOnce = useRef(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
 
-  // Fetch brands, pick 1 random brand, then pick 3 random products
+  // Fetch brands
   useEffect(() => {
     if (fetchedOnce.current) return;
     fetchedOnce.current = true;
@@ -44,7 +45,7 @@ export default function FeaturedProducts() {
           picks.map((p) => ({
             src: p.image,
             name: p.name,
-            rotDeg: Math.round(Math.random() * 40 - 20), // -20°..20°
+            rotDeg: Math.round(Math.random() * 40 - 20),
           }))
         );
       } catch {
@@ -53,7 +54,7 @@ export default function FeaturedProducts() {
     })();
   }, []);
 
-  // Trigger animations once scrolled into view
+  // Trigger animations once visible
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -74,6 +75,19 @@ export default function FeaturedProducts() {
     return () => observer.disconnect();
   }, []);
 
+  // handle mobile tap
+  function handleTap(e: React.MouseEvent, index: number) {
+    if (window.innerWidth > 480) return; // only intercept on mobile
+    if (revealed === index) {
+      // second tap → go to link
+      window.location.href = '/range';
+    } else {
+      // first tap → unblur
+      e.preventDefault();
+      setRevealed(index);
+    }
+  }
+
   return (
     <section className={styles.featured} ref={sectionRef}>
       <Particles />
@@ -90,6 +104,7 @@ export default function FeaturedProducts() {
               key={p.src + i}
               href="/range"
               className={`${styles.card} ${visible ? styles.visible : ''}`}
+              onClick={(e) => handleTap(e, i)}
               style={
                 {
                   '--rot': `${p.rotDeg}deg`,
@@ -101,7 +116,9 @@ export default function FeaturedProducts() {
               <Image
                 src={p.src}
                 alt={p.name}
-                className={styles.productImg}
+                className={`${styles.productImg} ${
+                  revealed === i ? styles.revealed : ''
+                }`}
                 width={220}
                 height={320}
                 draggable={false}

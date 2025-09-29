@@ -52,9 +52,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 70px;
+  gap: 140px;
   flex-wrap: wrap;
-  margin-top: 50px;
+  margin-top: 100px;
 }
 
 /* --- Image pop-in animation --- */
@@ -118,11 +118,19 @@
     margin-top: 32px;
   }
 
-  .productImg {
-    height: 180px;
-    max-width: 60vw;
-    transition: transform 0.2s ease, filter 0.2s ease;
-  }
+.productImg {
+  width: auto;
+  height: 350px;
+  max-width: 18vw;
+  filter: blur(6px) brightness(0.92);
+  transition: filter 0.25s ease, transform 0.25s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.productImg.revealed {
+  filter: blur(0) brightness(1);
+}
 
   /* Tap feedback (instead of hover) */
   .card:active .productImg {
