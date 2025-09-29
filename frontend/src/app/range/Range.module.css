@@ -201,12 +201,8 @@
   opacity: .8;
 }
 
-@media (max-width: 900px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (max-width: 620px) {
   .heroInner { padding: 6.5rem 1rem 3rem; }
-  .grid { grid-template-columns: 1fr; }
   .brandHeader { grid-template-columns: 1fr auto; text-align: center; }
   .brandLogo { width: 90px; }
 }
