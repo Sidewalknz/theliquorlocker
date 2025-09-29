@@ -67,7 +67,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Sidewalk
+              Created by Sidewalk
             </a>
           </p>
         </div>
