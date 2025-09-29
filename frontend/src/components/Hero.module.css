@@ -173,9 +173,9 @@
     min-height: 520px;
     padding: 0 12px;
   }
-  .layerImg.small { max-width: 70px; }
-  .layerImg.medium { max-width: 95px; }
-  .layerImg.large { max-width: 140px; }
+  .layerImg.small { max-width: 40px; }
+  .layerImg.medium { max-width: 70px; }
+  .layerImg.large { max-width: 90px; }
   .layer { transition: filter 180ms ease; }
   .content h1 { max-width: 95%; margin-bottom: 18px; }
   .tagline { font-size: 13px; margin-bottom: 6px; }
