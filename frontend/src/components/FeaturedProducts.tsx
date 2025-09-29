@@ -80,15 +80,13 @@ export default function FeaturedProducts() {
     let raf = 0;
 
     const updateFocus = () => {
-      // Only apply on mobile
       if (window.innerWidth > 480) {
-        // Reset any custom focus so desktop hover takes over
         cardRefs.current.forEach((el) => el?.style.removeProperty('--focus'));
         return;
       }
 
       const viewportCenter = window.innerHeight / 2;
-      const falloff = 180; // px from center → fully blurred when beyond this
+      const falloff = 1200; // expanded radius for clearer focus
 
       cardRefs.current.forEach((el) => {
         if (!el) return;
