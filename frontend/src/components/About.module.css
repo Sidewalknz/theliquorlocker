@@ -32,3 +32,74 @@
   margin: 0 auto 1.5rem;
   max-width: 70ch;
 }
+
+.socials {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  color: var(--foreground); /* controls SVG fill if currentColor is set */
+}
+
+.socials a {
+  display: inline-flex;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  color: inherit; /* ensure anchor inherits the foreground */
+}
+
+.socials a:hover,
+.socials a:focus-visible {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+.icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+/* ===== Phones (≤ 480px) ===== */
+@media (max-width: 480px) {
+  .about {
+    padding: 4rem 1rem;
+  }
+
+  .inner {
+    text-align: center;
+  }
+
+  .about h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.01em;
+  }
+
+  .subheading {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.35;
+  }
+
+  .about p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 auto 1rem;
+    max-width: 60ch;
+  }
+
+  .socials {
+    margin-top: 1.75rem;
+    gap: 1rem;
+  }
+
+  /* Bigger tap targets for icons */
+  .socials a {
+    padding: 10px;            /* increases hit area to ~48px with icon */
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+}

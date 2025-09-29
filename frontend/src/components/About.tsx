@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import styles from './About.module.css';
 
 export default function About() {
@@ -25,6 +26,38 @@ export default function About() {
           apart from our competitors by curating a portfolio of liquor that embodies excellence. 
           Our commitment to excellence is what defines us and sets us apart in the industry.
         </p>
+
+        {/* Social media icons */}
+        <div className={styles.socials}>
+          <a
+            href="https://www.facebook.com/people/The-Liquor-Locker/61572703876000/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <Image
+              src="/icons/facebook2.svg"
+              alt="Facebook"
+              width={28}
+              height={28}
+              className={styles.icon}
+            />
+          </a>
+          <a
+            href="https://www.instagram.com/theliquorlocker___/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <Image
+              src="/icons/instagram2.svg"
+              alt="Instagram"
+              width={28}
+              height={28}
+              className={styles.icon}
+            />
+          </a>
+        </div>
       </div>
     </section>
   );
