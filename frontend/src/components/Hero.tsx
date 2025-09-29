@@ -31,7 +31,7 @@ export default function Hero() {
 
   function buildSlots() {
     return [
-      { xPct: 18, yPct: 28, jitterVW: 6, jitterVH: 4 },
+      { xPct: 18, yPct: 18, jitterVW: 6, jitterVH: 4 },
       { xPct: 82, yPct: 30, jitterVW: 6, jitterVH: 4 },
       { xPct: 22, yPct: 72, jitterVW: 6, jitterVH: 4 },
       { xPct: 78, yPct: 68, jitterVW: 6, jitterVH: 4 },
