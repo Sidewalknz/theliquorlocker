@@ -7,13 +7,13 @@ import Particles from './Particles';
 
 type Layer = {
   src: string;
-  depth: number; // 0 (far) → 1 (near)
-  baseX: number; // px offset from center
-  baseY: number; // px offset from center
+  depth: number;
+  baseX: number;
+  baseY: number;
   scale: number;
   opacity: number;
-  blur: number; // px
-  rotate: number; // deg
+  blur: number;
+  rotate: number;
 };
 
 export default function Hero() {
@@ -29,7 +29,6 @@ export default function Hero() {
     { xPct: number; yPct: number; jitterVW: number; jitterVH: number }[]
   >([]);
 
-  // --- slots around hero
   function buildSlots() {
     return [
       { xPct: 18, yPct: 28, jitterVW: 6, jitterVH: 4 },
@@ -54,7 +53,6 @@ export default function Hero() {
     return { baseX: x, baseY: y };
   }
 
-  // --- fetch 4 random product images
   useEffect(() => {
     let mounted = true;
 
@@ -77,7 +75,7 @@ export default function Hero() {
           const scale = 0.95 + d * 0.35 + Math.random() * 0.08;
           const opacity = 0.22 + d * 0.55;
           const blur = (1 - d) * 4.5;
-          const rotate = Math.random() * 60 - 30; // -30° .. 30°
+          const rotate = Math.random() * 60 - 30;
           return { src, depth: d, baseX, baseY, scale, opacity, blur, rotate };
         });
 
@@ -93,7 +91,6 @@ export default function Hero() {
     };
   }, []);
 
-  // --- recompute base positions on resize
   useEffect(() => {
     function onResize() {
       setLayers((prev) => {
@@ -110,7 +107,6 @@ export default function Hero() {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  // --- parallax loop
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       const w = window.innerWidth;
@@ -168,7 +164,6 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} ref={sectionRef}>
-      {/* LAYERED PARALLAX IMAGES */}
       <div className={styles.layers} aria-hidden>
         {layers.map((l, i) => {
           const sizeClass =
@@ -205,12 +200,11 @@ export default function Hero() {
         })}
       </div>
 
-      {/* particles */}
       <Particles />
 
-      {/* content */}
       <div className={styles.content}>
         <h1>
+          <span className={styles.tagline}>- Premium Alcohol Distributor -</span>
           <span className={styles.firstLine}>BRANDS WITH A STORY</span>
           <span className={styles.secondLine}>and we are here to tell it.</span>
         </h1>

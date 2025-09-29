@@ -3,14 +3,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-
-  background: linear-gradient(
-    to right,
-    #c2a796 0%,
-    #dcc3aa 45%,
-    #fae1c3 100%
-  );
-
+  background: linear-gradient(to right, #c2a796 0%, #dcc3aa 45%, #fae1c3 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +27,6 @@
   transition: filter 200ms ease;
 }
 
-/* Pop-in animation */
 @keyframes popIn {
   0% {
     opacity: 0;
@@ -57,7 +49,6 @@
   -webkit-user-drag: none;
   object-fit: contain;
   filter: drop-shadow(0 15px 30px rgba(0,0,0,.2));
-
   opacity: 0;
   animation: popIn 0.8s ease-out forwards;
   animation-delay: calc(var(--i, 0) * 0.15s);
@@ -83,6 +74,16 @@
   line-height: 1.2;
 }
 
+.tagline {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+  margin-bottom: -10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .firstLine {
   display: block;
   font-size: 56px;
@@ -92,14 +93,13 @@
 
 .secondLine {
   display: block;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 600;
-  margin-top: 8px;
+  margin-top: -6px;
   text-transform: none;
   white-space: nowrap;
 }
 
-/* CTA group */
 .ctas {
   display: flex;
   gap: 16px;
@@ -115,7 +115,6 @@
   color: #ffffff;
   text-decoration: none;
   font-weight: 600;
-  border-radius: 4px;
   transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 16px;
   line-height: 1;
@@ -128,7 +127,6 @@
   box-shadow: 0 6px 14px rgba(0,0,0,.12);
 }
 
-/* Secondary CTA (register) */
 .secondaryCta {
   background: transparent;
   color: var(--brand-orange);
@@ -141,58 +139,32 @@
   color: #ffffff;
 }
 
-/* Mobile tweaks for the Hero section */
 @media (max-width: 768px) {
   .hero {
     height: 85vh;
     min-height: 560px;
     padding: 0 16px;
   }
-
-  /* Tone down image sizes so they don’t crowd the copy */
   .layerImg.small { max-width: 80px; }
   .layerImg.medium { max-width: 110px; }
   .layerImg.large { max-width: 160px; }
-
-  /* Slightly faster pop so users see content sooner on mobile */
   .layerImg {
     animation-duration: 0.7s;
     animation-delay: calc(var(--i, 0) * 0.12s);
   }
-
   .content {
     padding: 0 8px;
   }
-
   .content h1 {
     max-width: 90%;
     margin-bottom: 22px;
     line-height: 1.15;
   }
-
-  .firstLine {
-    font-size: 42px;
-    letter-spacing: 0.01em;
-  }
-
-  .secondLine {
-    font-size: 22px;
-    margin-top: 6px;
-    white-space: normal; /* allow wrap on smaller screens */
-  }
-
-  .ctas {
-    gap: 12px;
-  }
-
-  .cta {
-    padding: 12px 20px;
-    font-size: 15px;
-  }
-
-  .secondaryCta {
-    border-width: 2px;
-  }
+  .tagline { font-size: 14px; margin-bottom: 8px; }
+  .firstLine { font-size: 42px; }
+  .secondLine { font-size: 22px; margin-top: 6px; white-space: normal; }
+  .ctas { gap: 12px; }
+  .cta { padding: 12px 20px; font-size: 15px; }
 }
 
 @media (max-width: 480px) {
@@ -201,36 +173,14 @@
     min-height: 520px;
     padding: 0 12px;
   }
-
   .layerImg.small { max-width: 70px; }
   .layerImg.medium { max-width: 95px; }
   .layerImg.large { max-width: 140px; }
-
-  /* Nudge layers a bit less on tiny screens to reduce motion */
-  .layer {
-    transition: filter 180ms ease;
-  }
-
-  .content h1 {
-    max-width: 95%;
-    margin-bottom: 18px;
-  }
-
-  .firstLine {
-    font-size: 34px;
-  }
-
-  .secondLine {
-    font-size: 20px;
-    margin-top: 6px;
-  }
-
-  .ctas {
-    gap: 10px;
-  }
-
-  .cta {
-    padding: 11px 18px;
-    font-size: 14px;
-  }
+  .layer { transition: filter 180ms ease; }
+  .content h1 { max-width: 95%; margin-bottom: 18px; }
+  .tagline { font-size: 13px; margin-bottom: 6px; }
+  .firstLine { font-size: 34px; }
+  .secondLine { font-size: 20px; margin-top: 6px; }
+  .ctas { gap: 10px; }
+  .cta { padding: 11px 18px; font-size: 14px; }
 }
