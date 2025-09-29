@@ -41,7 +41,7 @@ export default function WorkTogether() {
           account set up than it is today. Fill out the form and start ordering today.
         </p>
         <a
-          href="/contact"
+          href="/register"
           className={`${styles.cta} ${visible ? styles.visible : ''}`}
         >
           Get Started

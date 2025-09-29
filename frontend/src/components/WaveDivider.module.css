@@ -1,15 +1,13 @@
-/* Zero-height spacer; SVG is absolutely positioned so layout stays smooth */
 .wrapper {
   position: relative;
   width: 100%;
-  height: 0;               /* does not affect document flow */
+  height: 0;
   line-height: 0;
-  pointer-events: none;    /* purely decorative */
+  pointer-events: none;
   z-index: 1;
-  --wave-h: 100px;         /* default if not provided inline */
+  --wave-h: 100px;
 }
 
-/* Shared SVG box */
 .svg {
   position: absolute;
   left: 0;
@@ -18,29 +16,23 @@
   display: block;
 }
 
-/* When NOT flipped (points UP): overlap the section BELOW */
 .normal .svg {
   bottom: calc(-1 * var(--wave-h));
 }
 
-/* When flipped (points DOWN): overlap the section ABOVE */
 .flip .svg {
   top: calc(-1 * var(--wave-h));
 }
 
-/* The SVG fills with currentColor, set from the wrapper's inline style.
-   Example: style={{ color: 'var(--background)' }} */
-
-   /* Mobile tweaks for WaveDivider */
 @media (max-width: 768px) {
   .wrapper {
-    --wave-h: 70px; /* slightly smaller wave on tablets */
+    --wave-h: 70px;
   }
 }
 
 @media (max-width: 480px) {
   .wrapper {
-    --wave-h: 50px; /* compact wave height for phones */
+    --wave-h: 50px;
   }
 
   .svg {
