@@ -101,7 +101,7 @@
 /* ===== Phones (≤ 480px) ===== */
 @media (max-width: 480px) {
   .featured {
-    min-height: 60vh;
+    min-height: 70vh;
   }
 
   .content {
@@ -114,14 +114,13 @@
   }
 
   .row {
-    gap: 40px;
-    margin-top: 32px;
+    gap: 60px;
+    margin-top: 50px;
   }
 
 .productImg {
   width: auto;
-  height: 350px;
-  max-width: 18vw;
+  height: 140px;
   filter: blur(6px) brightness(0.92);
   transition: filter 0.25s ease, transform 0.25s ease;
   user-select: none;
