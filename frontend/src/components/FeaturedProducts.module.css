@@ -98,18 +98,39 @@
   50%      { transform: rotate(var(--rot)) translateY(-8px); }
 }
 
-/* medium screens */
-@media (max-width: 900px) {
-  .title { font-size: 38px; margin-bottom: 24px; }
-  .content { padding: 72px 16px 48px; }
-  .productImg { max-width: 34vw; width: 180px; }
-  .row { gap: 20px; }
-}
+/* ===== Phones (≤ 480px) ===== */
+@media (max-width: 480px) {
+  .featured {
+    min-height: 60vh;
+  }
 
-/* small screens */
-@media (max-width: 600px) {
-  .title { font-size: 32px; margin-bottom: 20px; }
-  .content { padding: 64px 16px 40px; }
-  .productImg { max-width: 60vw; width: 150px; }
-  .row { gap: 16px; }
+  .content {
+    padding: 100px 12px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .row {
+    gap: 40px;
+    margin-top: 32px;
+  }
+
+  .productImg {
+    height: 180px;
+    max-width: 60vw;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+
+  /* Tap feedback (instead of hover) */
+  .card:active .productImg {
+    transform: scale(0.95);
+    filter: brightness(0.9);
+  }
+
+  .card.visible {
+    animation: popIn 0.7s ease-out forwards;
+  }
 }
