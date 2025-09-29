@@ -3,14 +3,7 @@
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-
-  background: linear-gradient(
-    to right,
-    #c2a796 0%,
-    #dcc3aa 45%,
-    #fae1c3 100%
-  );
-
+  background: linear-gradient(to right, #c2a796 0%, #dcc3aa 45%, #fae1c3 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,28 +19,22 @@
   margin: 0 auto;
 }
 
-/* --- Title animation --- */
 .title {
   font-size: 44px;
   font-weight: 800;
   line-height: 1.1;
   margin: 0 0 28px;
   color: var(--foreground);
-
   opacity: 0;
   transform: translateY(30px);
 }
-
-.title.visible {
-  animation: fadeUp 1s ease-out forwards;
-}
+.title.visible { animation: fadeUp 1s ease-out forwards; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Products row --- */
 .row {
   display: flex;
   align-items: flex-end;
@@ -57,17 +44,15 @@
   margin-top: 100px;
 }
 
-/* --- Image pop-in animation --- */
 .card {
   --rot: 0deg;
   --phase: 0s;
   transform: rotate(var(--rot)) scale(0.8);
   opacity: 0;
 }
-
 .card.visible {
   animation: popIn 1s ease-out forwards, bob 5s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 0.5s), var(--phase); /* slower stagger */
+  animation-delay: calc(var(--i, 0) * 0.5s), var(--phase);
 }
 
 @keyframes popIn {
@@ -76,19 +61,20 @@
   100% { opacity: 1; transform: rotate(var(--rot)) scale(1); }
 }
 
+/* Base blur uses a --focus variable [0..1]. Desktop hover sets it to 1; on mobile JS updates it on scroll. */
 .productImg {
   width: auto;
   height: 350px;
   max-width: 18vw;
-  filter: blur(6px) brightness(0.92);
+  filter: blur(calc((1 - var(--focus, 0)) * 6px)) brightness(calc(0.92 + var(--focus, 0) * 0.08));
   transition: filter 0.25s ease, transform 0.25s ease;
-  will-change: transform, filter;
   user-select: none;
   -webkit-user-drag: none;
 }
 
+/* Desktop hover reveal */
 .card:hover .productImg {
-  filter: blur(0) brightness(1);
+  --focus: 1;
   transform: scale(1.03);
 }
 
@@ -100,44 +86,23 @@
 
 /* ===== Phones (≤ 480px) ===== */
 @media (max-width: 480px) {
-  .featured {
-    min-height: 70vh;
+  .featured { min-height: 70vh; }
+  .content { padding: 100px 12px; }
+  .title { font-size: 24px; margin-bottom: 16px; }
+  .row { gap: 60px; margin-top: 50px; }
+
+  .productImg {
+    height: 140px;
+    max-width: 60vw;
+    /* transform on tap not needed; focus is driven by scroll */
   }
 
-  .content {
-    padding: 100px 12px;
-  }
-
-  .title {
-    font-size: 24px;
-    margin-bottom: 16px;
-  }
-
-  .row {
-    gap: 60px;
-    margin-top: 50px;
-  }
-
-.productImg {
-  width: auto;
-  height: 140px;
-  filter: blur(6px) brightness(0.92);
-  transition: filter 0.25s ease, transform 0.25s ease;
-  user-select: none;
-  -webkit-user-drag: none;
+  /* Tone down entrance animation on tiny screens */
+  .card.visible { animation: popIn 0.7s ease-out forwards; }
 }
 
-.productImg.revealed {
-  filter: blur(0) brightness(1);
-}
-
-  /* Tap feedback (instead of hover) */
-  .card:active .productImg {
-    transform: scale(0.95);
-    filter: brightness(0.9);
-  }
-
-  .card.visible {
-    animation: popIn 0.7s ease-out forwards;
-  }
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .title.visible,
+  .card.visible { animation: none !important; opacity: 1; transform: none; }
 }

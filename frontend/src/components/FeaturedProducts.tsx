@@ -17,13 +17,12 @@ type Brand = {
 export default function FeaturedProducts() {
   const [brand, setBrand] = useState<Brand | null>(null);
   const [products, setProducts] = useState<ProductPick[]>([]);
-  const [revealed, setRevealed] = useState<number | null>(null); // track which card is revealed
   const fetchedOnce = useRef(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
+  const cardRefs = useRef<HTMLAnchorElement[]>([]);
   const [visible, setVisible] = useState(false);
 
-  // Fetch brands
   useEffect(() => {
     if (fetchedOnce.current) return;
     fetchedOnce.current = true;
@@ -49,24 +48,25 @@ export default function FeaturedProducts() {
           }))
         );
       } catch {
-        // noop
+        /* ignore */
       }
     })();
   }, []);
 
-  // Trigger animations once visible
+  // Reveal section animation when in view
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             setVisible(true);
             observer.disconnect();
+            break;
           }
-        });
+        }
       },
       { threshold: 0.2 }
     );
@@ -75,18 +75,46 @@ export default function FeaturedProducts() {
     return () => observer.disconnect();
   }, []);
 
-  // handle mobile tap
-  function handleTap(e: React.MouseEvent, index: number) {
-    if (window.innerWidth > 480) return; // only intercept on mobile
-    if (revealed === index) {
-      // second tap → go to link
-      window.location.href = '/range';
-    } else {
-      // first tap → unblur
-      e.preventDefault();
-      setRevealed(index);
-    }
-  }
+  // Mobile scroll-focus blur control
+  useEffect(() => {
+    let raf = 0;
+
+    const updateFocus = () => {
+      // Only apply on mobile
+      if (window.innerWidth > 480) {
+        // Reset any custom focus so desktop hover takes over
+        cardRefs.current.forEach((el) => el?.style.removeProperty('--focus'));
+        return;
+      }
+
+      const viewportCenter = window.innerHeight / 2;
+      const falloff = 180; // px from center → fully blurred when beyond this
+
+      cardRefs.current.forEach((el) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(cardCenter - viewportCenter);
+        const focus = Math.max(0, Math.min(1, 1 - dist / falloff));
+        el.style.setProperty('--focus', String(focus));
+      });
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateFocus);
+    };
+    const onResize = onScroll;
+
+    updateFocus();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [products.length]);
 
   return (
     <section className={styles.featured} ref={sectionRef}>
@@ -103,8 +131,10 @@ export default function FeaturedProducts() {
             <a
               key={p.src + i}
               href="/range"
+              ref={(el) => {
+                if (el) cardRefs.current[i] = el;
+              }}
               className={`${styles.card} ${visible ? styles.visible : ''}`}
-              onClick={(e) => handleTap(e, i)}
               style={
                 {
                   '--rot': `${p.rotDeg}deg`,
@@ -116,9 +146,7 @@ export default function FeaturedProducts() {
               <Image
                 src={p.src}
                 alt={p.name}
-                className={`${styles.productImg} ${
-                  revealed === i ? styles.revealed : ''
-                }`}
+                className={styles.productImg}
                 width={220}
                 height={320}
                 draggable={false}
